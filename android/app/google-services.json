@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "743955436289",
+    "project_id": "flutter-uber-76ce8",
+    "storage_bucket": "flutter-uber-76ce8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743955436289:android:7d6411ca5f70d0c6c80100",
+        "android_client_info": {
+          "package_name": "institutoite.profesional_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "743955436289-euc3ag35hv3ct00k1f110ttkj8vo9ri9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDB50EyImijTINp2kc-Bd3KVturwGDaUrI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "743955436289-euc3ag35hv3ct00k1f110ttkj8vo9ri9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
