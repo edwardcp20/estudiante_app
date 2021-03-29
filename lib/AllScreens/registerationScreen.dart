@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:profesional_app/AllScreens/loginScreen.dart';
 import 'package:profesional_app/AllScreens/mainscreen.dart';
-import 'package:profesional_app/AllWidgets/progressDialog.dart';
 import 'package:profesional_app/main.dart';
 
 
@@ -179,14 +178,14 @@ class RegisterationScreen extends StatelessWidget
 
   void registerNewUser(BuildContext context) async
   {
-    showDialog(
+    /*showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context)
         {
           return ProgressDialog(message: "Registering, Please wait...",);
         }
-    );
+    );*/
 
     final User firebaseUser = (await _firebaseAuth
         .createUserWithEmailAndPassword(
