@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:profesional_app/AllScreens/mainscreen.dart';
 import 'package:profesional_app/AllScreens/registerationScreen.dart';
+import 'package:profesional_app/AllWidgets/progressDialog.dart';
 import 'package:profesional_app/main.dart';
 
 
@@ -40,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen>
 
               SizedBox(height: 1.0,),
               Text(
-                "Iniciar Sesion como profesor",
+                "Login as a Rider",
                 style: TextStyle(fontSize: 24.0, fontFamily: "Brand Bold"),
                 textAlign: TextAlign.center,
               ),
@@ -127,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen>
                   Navigator.pushNamedAndRemoveUntil(context, RegisterationScreen.idScreen, (route) => false);
                 },
                 child: Text(
-                  "¿No tienes cuenta? Registrate Aqui",
+                  "Do not have an Account? Register Here",
                 ),
               ),
             ],
@@ -141,14 +142,14 @@ class _LoginScreenState extends State<LoginScreen>
 
   void loginAndAuthenticateUser(BuildContext context) async
   {
-    /*showDialog(
+    showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context)
       {
         return ProgressDialog(message: "Authenticating, Please wait...",);
       }
-    );*/
+    );
 
     final User firebaseUser = (await _firebaseAuth
         .signInWithEmailAndPassword(
