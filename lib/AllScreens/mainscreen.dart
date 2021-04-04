@@ -16,6 +16,8 @@ class _MainScreenState extends State<MainScreen> {
   Completer<GoogleMapController> _controllerGoogleMap = Completer();
   GoogleMapController newGoogleMapController;
 
+  GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
@@ -25,7 +27,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     //createIconMarker();
     return Scaffold(
-      //key: scaffoldKey,
+      key: scaffoldKey,
       drawer: Container(
         color: Colors.white,
         width: 255.0,
@@ -44,6 +46,7 @@ class _MainScreenState extends State<MainScreen> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          Text("Nombre de perfil", style: TextStyle(fontSize: 16.0, fontFamily: "Brand Bold"),),
                           //Text(uName, style: TextStyle(fontSize: 16.0, fontFamily: "Brand Bold"),),
                           SizedBox(height: 6.0,),
                           GestureDetector(
@@ -51,7 +54,7 @@ class _MainScreenState extends State<MainScreen> {
                               {
                                 //Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfileTabPage()));
                               },
-                              child: Text("Visit Profile")
+                              child: Text("Visitar perfil")
                           ),
                         ],
                       ),
@@ -72,7 +75,7 @@ class _MainScreenState extends State<MainScreen> {
                 },
                 child: ListTile(
                   leading: Icon(Icons.history),
-                  title: Text("History", style: TextStyle(fontSize: 15.0),),
+                  title: Text("Historia", style: TextStyle(fontSize: 15.0),),
                 ),
               ),
               GestureDetector(
@@ -82,7 +85,7 @@ class _MainScreenState extends State<MainScreen> {
                 },
                 child: ListTile(
                   leading: Icon(Icons.person),
-                  title: Text("Visit Profile", style: TextStyle(fontSize: 15.0),),
+                  title: Text("Visitar Perfil", style: TextStyle(fontSize: 15.0),),
                 ),
               ),
               GestureDetector(
@@ -92,7 +95,7 @@ class _MainScreenState extends State<MainScreen> {
                 },
                 child: ListTile(
                   leading: Icon(Icons.info),
-                  title: Text("About", style: TextStyle(fontSize: 15.0),),
+                  title: Text("Acerca de", style: TextStyle(fontSize: 15.0),),
                 ),
               ),
               GestureDetector(
@@ -103,7 +106,7 @@ class _MainScreenState extends State<MainScreen> {
                 },
                 child: ListTile(
                   leading: Icon(Icons.logout),
-                  title: Text("Sign Out", style: TextStyle(fontSize: 15.0),),
+                  title: Text("Cerrar Sesion", style: TextStyle(fontSize: 15.0),),
                 ),
               ),
             ],
@@ -151,6 +154,7 @@ class _MainScreenState extends State<MainScreen> {
                 {
                   resetApp();
                 }*/
+                scaffoldKey.currentState.openDrawer();
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -171,6 +175,7 @@ class _MainScreenState extends State<MainScreen> {
                 child: CircleAvatar(
                   backgroundColor: Colors.white,
                   //child: Icon((drawerOpen) ? Icons.menu : Icons.close, color: Colors.black,),
+                  child: Icon( Icons.menu, color: Colors.black,),
                   radius: 20.0,
                 ),
               ),
