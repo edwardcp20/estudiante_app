@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:profesional_app/AllWidgets/Divider.dart';
 
@@ -17,6 +18,30 @@ class _MainScreenState extends State<MainScreen> {
   GoogleMapController newGoogleMapController;
 
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  Position currentPosition;
+  var geoLocator = Geolocator();
+  double bottomPaddingOfMap = 0;
+
+  void locatePosition() async
+  {
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    currentPosition = position;
+
+    LatLng latLatPosition = LatLng(position.latitude, position.longitude);
+
+    CameraPosition cameraPosition = new CameraPosition(target: latLatPosition, zoom: 14);
+    newGoogleMapController.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+
+    /*String address = await AssistantMethods.searchCoordinateAddress(position, context);
+    print("This is your Address :: " + address);
+
+    initGeoFireListner();
+
+    uName = userCurrentInfo.name;
+
+    AssistantMethods.retrieveHistoryInfo(context);*/
+  }
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
@@ -116,7 +141,7 @@ class _MainScreenState extends State<MainScreen> {
       body: Stack(
         children: [
           GoogleMap(
-            //padding: EdgeInsets.only(bottom: bottomPaddingOfMap, top: 25.0),
+            padding: EdgeInsets.only(bottom: bottomPaddingOfMap, top: 25.0),
             mapType: MapType.normal,
             myLocationButtonEnabled: true,
             initialCameraPosition: _kGooglePlex,
@@ -132,10 +157,10 @@ class _MainScreenState extends State<MainScreen> {
               newGoogleMapController = controller;
 
               setState(() {
-                //bottomPaddingOfMap = 300.0;
+                bottomPaddingOfMap = 300.0;
               });
 
-              //locatePosition();
+              locatePosition();
             },
           ),
 
