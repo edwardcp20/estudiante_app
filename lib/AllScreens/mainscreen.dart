@@ -43,8 +43,140 @@ class _MainScreenState extends State<MainScreen> {
     AssistantMethods.retrieveHistoryInfo(context);*/
   }
 
+  
+  void saveStudentRequest()
+  {
+    rideRequestRef = FirebaseDatabase.instance.reference().child("Ride Requests").push();
+
+    //var pickUp = Provider.of<AppData>(context, listen: false).pickUpLocation;
+    //var dropOff = Provider.of<AppData>(context, listen: false).dropOffLocation;
+
+    Map pickUpLocMap =
+    {
+      "latitude": pickUp.latitude.toString(),
+      "longitude": pickUp.longitude.toString(),
+    };
+
+    Map dropOffLocMap =
+    {
+      "latitude": dropOff.latitude.toString(),
+      "longitude": dropOff.longitude.toString(),
+    };*/
+
+    Map rideInfoMap =
+    {
+      "driver_id": "waiting",
+      "payment_method": "cash",
+      "pickup": pickUpLocMap,
+      "dropoff": dropOffLocMap,
+      "created_at": DateTime.now().toString(),
+      "rider_name": userCurrentInfo.name,
+      "rider_phone": userCurrentInfo.phone,
+      "pickup_address": pickUp.placeName,
+      "dropoff_address": dropOff.placeName,
+      "ride_type": carRideType,
+    };
+
+    //rideRequestRef.set(rideInfoMap);
+
+    rideStreamSubscription = rideRequestRef.onValue.listen((event) async {
+      if(event.snapshot.value == null)
+      {
+        return;
+      }
+
+      if(event.snapshot.value["car_details"] != null)
+      {
+        setState(() {
+          carDetailsDriver = event.snapshot.value["car_details"].toString();
+        });
+      }
+      if(event.snapshot.value["driver_name"] != null)
+      {
+        setState(() {
+          driverName = event.snapshot.value["driver_name"].toString();
+        });
+      }
+      if(event.snapshot.value["driver_phone"] != null)
+      {
+        setState(() {
+          driverphone = event.snapshot.value["driver_phone"].toString();
+        });
+      }
+
+      if(event.snapshot.value["driver_location"] != null)
+      {
+        double driverLat = double.parse(event.snapshot.value["driver_location"]["latitude"].toString());
+        double driverLng = double.parse(event.snapshot.value["driver_location"]["longitude"].toString());
+        LatLng driverCurrentLocation = LatLng(driverLat, driverLng);
+
+        if(statusRide == "accepted")
+        {
+          updateRideTimeToPickUpLoc(driverCurrentLocation);
+        }
+        else if(statusRide == "onride")
+        {
+          updateRideTimeToDropOffLoc(driverCurrentLocation);
+        }
+        else if(statusRide == "arrived")
+        {
+          setState(() {
+            rideStatus = "Driver has Arrived.";
+          });
+        }
+      }
+
+      if(event.snapshot.value["status"] != null)
+      {
+        statusStudent = event.snapshot.value["status"].toString();
+      }
+      /*if(statusRide == "accepted")
+      {
+        displayDriverDetailsContainer();
+        Geofire.stopListener();
+        deleteGeofileMarkers();
+      }*/
+      /*if(statusRide == "ended")
+      {
+        if(event.snapshot.value["fares"] != null)
+        {
+          int fare = int.parse(event.snapshot.value["fares"].toString());
+          var res = await showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context)=> CollectFareDialog(paymentMethod: "cash", fareAmount: fare,),
+          );
+
+          String driverId="";
+          if(res == "close")
+          {
+            if(event.snapshot.value["driver_id"] != null)
+            {
+              driverId = event.snapshot.value["driver_id"].toString();
+            }
+
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => RatingScreen(driverId: driverId)));
+
+            rideRequestRef.onDisconnect();
+            rideRequestRef = null;
+            rideStreamSubscription.cancel();
+            rideStreamSubscription = null;
+            resetApp();
+          }
+        }
+      }*/
+    });
+  }
+  
+  void deleteGeofileMarkers()
+  {
+    setState(() {
+      markersSet.removeWhere((element) => element.markerId.value.contains("driver"));
+    });
+  }
+
   static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+    target: LatLng(-17.80170892836087, -63.135758422746626),
     zoom: 14.4746,
   );
 
@@ -71,7 +203,7 @@ class _MainScreenState extends State<MainScreen> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Nombre de perfil", style: TextStyle(fontSize: 16.0, fontFamily: "Brand Bold"),),
+                          Text("Edward", style: TextStyle(fontSize: 16.0, fontFamily: "Brand Bold"),),
                           //Text(uName, style: TextStyle(fontSize: 16.0, fontFamily: "Brand Bold"),),
                           SizedBox(height: 6.0,),
                           GestureDetector(
@@ -79,7 +211,7 @@ class _MainScreenState extends State<MainScreen> {
                               {
                                 //Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfileTabPage()));
                               },
-                              child: Text("Visitar perfil")
+                              child: Text("")
                           ),
                         ],
                       ),
@@ -100,7 +232,7 @@ class _MainScreenState extends State<MainScreen> {
                 },
                 child: ListTile(
                   leading: Icon(Icons.history),
-                  title: Text("Historia", style: TextStyle(fontSize: 15.0),),
+                  title: Text("Historial", style: TextStyle(fontSize: 15.0),),
                 ),
               ),
               GestureDetector(
@@ -290,7 +422,7 @@ class _MainScreenState extends State<MainScreen> {
                                     : "Add Home",
                               ),*/
                               SizedBox(height: 4.0,),
-                              Text("Your living home address", style: TextStyle(color: Colors.black54, fontSize: 12.0),),
+                              Text("Direccion de su casa", style: TextStyle(color: Colors.black54, fontSize: 12.0),),
                             ],
                           ),
                         ],
@@ -311,7 +443,7 @@ class _MainScreenState extends State<MainScreen> {
                             children: [
                               Text("Add Work"),
                               SizedBox(height: 4.0,),
-                              Text("Your office address", style: TextStyle(color: Colors.black54, fontSize: 12.0),),
+                              Text("Direccion", style: TextStyle(color: Colors.black54, fontSize: 12.0),),
                             ],
                           ),
                         ],
@@ -589,7 +721,7 @@ class _MainScreenState extends State<MainScreen> {
 
                     Container(
                       width: double.infinity,
-                      child: Text("Cancel Ride", textAlign: TextAlign.center, style: TextStyle(fontSize: 12.0),),
+                      child: Text("Cancelar clase", textAlign: TextAlign.center, style: TextStyle(fontSize: 12.0),),
                     ),
                   ],
                 ),
@@ -658,7 +790,7 @@ class _MainScreenState extends State<MainScreen> {
                             ),
                             onPressed: () async
                             {
-                              //launch(('tel://${driverphone}'));
+                              //launch(('tel://${profesorphone}'));
                             },
                             color: Colors.black87,
                             child: Padding(
@@ -666,7 +798,7 @@ class _MainScreenState extends State<MainScreen> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Text("Call Driver   ", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),),
+                                  Text("Contactar   ", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),),
                                   Icon(Icons.call, color: Colors.white, size: 26.0,),
                                 ],
                               ),
