@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:profesional_app/AllScreens/loginScreen.dart';
 import 'package:profesional_app/AllScreens/registerationScreen.dart';
 import 'package:profesional_app/AllScreens/mainscreen.dart';
+import 'package:profesional_app/DataHandler/appData.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,20 +19,23 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Instituto Ite',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return ChangeNotifierProvider(
+      create: (context) => AppData(),
+      child: MaterialApp(
+        title: 'Estudiante App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        initialRoute: MainScreen.idScreen,
+          routes:
+          {
+            RegisterationScreen.idScreen: (context) => RegisterationScreen(),
+            LoginScreen.idScreen: (context) => LoginScreen(),
+            MainScreen.idScreen: (context) => MainScreen(),
+          },
+        debugShowCheckedModeBanner: false,
       ),
-      initialRoute: MainScreen.idScreen,
-        routes:
-        {
-          RegisterationScreen.idScreen: (context) => RegisterationScreen(),
-          LoginScreen.idScreen: (context) => LoginScreen(),
-          MainScreen.idScreen: (context) => MainScreen(),
-        },
-      debugShowCheckedModeBanner: false,
     );
   }
 }

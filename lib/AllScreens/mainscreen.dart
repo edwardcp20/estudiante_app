@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:profesional_app/AllScreens/loginScreen.dart';
-import 'package:profesional_app/AllScreens/registerationScreen.dart';
 import 'package:profesional_app/AllWidgets/Divider.dart';
 import 'package:profesional_app/AllWidgets/progressDialog.dart';
 import 'package:profesional_app/Assistants/assistantMethods.dart';
+import 'package:profesional_app/DataHandler/appData.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -57,7 +58,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
 
   String state = "normal";
 
-  StreamSubscription<Event> rideStreamSubscription;
+  //StreamSubscription<Event> rideStreamSubscription;
 
   bool isRequestingPositionDetails = false;
 
@@ -107,7 +108,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
 
     //rideRequestRef.set(rideInfoMap);
 
-    rideStreamSubscription = rideRequestRef.onValue.listen((event) async {
+    /*rideStreamSubscription = rideRequestRef.onValue.listen((event) async {
       if(event.snapshot.value == null)
       {
         return;
@@ -193,7 +194,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
           }
         }
       }*/
-    });
+    });*/
   }
   
   void deleteGeofileMarkers()
@@ -448,7 +449,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                 bottomPaddingOfMap = 300.0;
               });
 
-              //locatePosition();
+              locatePosition();
             },
           ),
 
@@ -522,8 +523,8 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: 6.0),
-                      Text("Hi there,", style: TextStyle(fontSize: 12.0),),
-                      Text("Where to?", style: TextStyle(fontSize: 20.0, fontFamily: "Brand Bold"),),
+                      Text("Hola,", style: TextStyle(fontSize: 12.0),),
+                      Text("Estamos para ayudarte", style: TextStyle(fontSize: 20.0, fontFamily: "Brand Bold"),),
                       SizedBox(height: 20.0),
 
                       GestureDetector(
@@ -555,7 +556,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                                 children: [
                                   Icon(Icons.search, color: Colors.blueAccent,),
                                   SizedBox(width: 10.0,),
-                                  Text("Search Drop Off"),
+                                  Text("Buscar profesor en tu zona"),
                                 ],
                               ),
                             ),
@@ -573,10 +574,10 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                               Text(
                                 Provider.of<AppData>(context).pickUpLocation != null
                                     ? Provider.of<AppData>(context).pickUpLocation.placeName
-                                    : "Add Home",
+                                    : "Agregar casa",
                               ),
                               SizedBox(height: 4.0,),
-                              Text("Your living home address", style: TextStyle(color: Colors.black54, fontSize: 12.0),),
+                              Text("Direccion de tu casa", style: TextStyle(color: Colors.black54, fontSize: 12.0),),
                             ],
                           ),
                         ],
@@ -633,7 +634,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                   ],
                 ),
 
-                child: Padding(
+                /*child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 17.0),
                   child: Column(
                     children: [
@@ -649,8 +650,8 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                             carRideType = "bike";
                           });
                           displayRequestRideContainer();
-                          availableDrivers = GeoFireAssistant.nearByAvailableDriversList;
-                          searchNearestDriver();
+                          //availableDrivers = GeoFireAssistant.nearByAvailableDriversList;
+                          //searchNearestDriver();
                         },
                         child: Container(
                           width: double.infinity,
@@ -793,13 +794,13 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                       ),
                     ],
                   ),
-                ),
+                ),*/
               ),
             ),
           ),
 
           //Cancel Ui
-          Positioned(
+          /*Positioned(
             bottom: 0.0,
             left: 0.0,
             right: 0.0,
@@ -881,10 +882,10 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                 ),
               ),
             ),
-          ),
+          ),*/
 
           //Display Assisned Driver Info
-          Positioned(
+          /*Positioned(
             bottom: 0.0,
             left: 0.0,
             right: 0.0,
@@ -932,7 +933,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
 
                     SizedBox(height: 22.0,),
 
-                    Row(
+                    /*Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         //call button
@@ -960,12 +961,12 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                           ),
                         ),
                       ],
-                    ),
+                    ),*/
                   ],
                 ),
               ),
             ),
-          ),
+          ),*/
         ],
       ),
     );
@@ -984,27 +985,27 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
         builder: (BuildContext context) => ProgressDialog(message: "Please wait...",)
     );
 
-    var details = await AssistantMethods.obtainPlaceDirectionDetails(pickUpLatLng, dropOffLatLng);
+    /*var details = await AssistantMethods.obtainPlaceDirectionDetails(pickUpLatLng, dropOffLatLng);
     setState(() {
       tripDirectionDetails = details;
-    });
+    });*/
 
     Navigator.pop(context);
 
     print("This is Encoded Points ::");
-    print(details.encodedPoints);
+    //print(details.encodedPoints);
 
     //PolylinePoints polylinePoints = PolylinePoints();
     //List<PointLatLng> decodedPolyLinePointsResult = polylinePoints.decodePolyline(details.encodedPoints);
 
     pLineCoordinates.clear();
 
-    if(decodedPolyLinePointsResult.isNotEmpty)
+    /*if(decodedPolyLinePointsResult.isNotEmpty)
     {
       decodedPolyLinePointsResult.forEach((PointLatLng pointLatLng) {
         pLineCoordinates.add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
       });
-    }
+    }*/
 
     polylineSet.clear();
 
