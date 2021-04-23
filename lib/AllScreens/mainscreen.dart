@@ -2,13 +2,16 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:profesional_app/AllScreens/loginScreen.dart';
 import 'package:profesional_app/AllWidgets/Divider.dart';
 import 'package:profesional_app/AllWidgets/progressDialog.dart';
 import 'package:profesional_app/Assistants/assistantMethods.dart';
+import 'package:profesional_app/Assistants/geoFireAssistant.dart';
 import 'package:profesional_app/DataHandler/appData.dart';
+import 'package:profesional_app/Models/nearbyAvailableDrivers.dart';
 import 'package:provider/provider.dart';
 
 
@@ -574,10 +577,10 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                               Text(
                                 Provider.of<AppData>(context).pickUpLocation != null
                                     ? Provider.of<AppData>(context).pickUpLocation.placeName
-                                    : "Agregar casa",
+                                    : "Tu ubicacion",
                               ),
                               SizedBox(height: 4.0,),
-                              Text("Direccion de tu casa", style: TextStyle(color: Colors.black54, fontSize: 12.0),),
+                              Text("Tu ubicacion actual", style: TextStyle(color: Colors.black54, fontSize: 12.0),),
                             ],
                           ),
                         ],
@@ -589,20 +592,20 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
 
                       SizedBox(height: 16.0),
 
-                      Row(
+                      /*Row(
                         children: [
                           Icon(Icons.work, color: Colors.grey,),
                           SizedBox(width: 12.0,),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Add Work"),
+                              Text("Segunda ubicacion"),
                               SizedBox(height: 4.0,),
-                              Text("Your office address", style: TextStyle(color: Colors.black54, fontSize: 12.0),),
+                              Text("Segunda ubicacion", style: TextStyle(color: Colors.black54, fontSize: 12.0),),
                             ],
                           ),
                         ],
-                      ),
+                      ),*/
                     ],
                   ),
                 ),
@@ -1087,9 +1090,9 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
     });
   }
 
-  /*void initGeoFireListner()
+  void initGeoFireListner()
   {
-    Geofire.initialize("availableDrivers");
+    Geofire.initialize("availableProfessors");
     //comment
     Geofire.queryAtLocation(currentPosition.latitude, currentPosition.longitude, 15).listen((map) {
       print(map);
@@ -1132,7 +1135,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
       setState(() {});
     });
     //comment
-  }*/
+  }
 
   /*void updateAvailableDriversOnMap()
   {
