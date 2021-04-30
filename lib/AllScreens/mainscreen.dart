@@ -329,7 +329,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
     String address = await AssistantMethods.searchCoordinateAddress(position, context);
     print("Tu direccion es :: " + address);
 
-    //initGeoFireListner();
+    initGeoFireListner();
 
     //uName = userCurrentInfo.name;
 
@@ -1137,7 +1137,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
     //comment
   }
 
-  /*void updateAvailableDriversOnMap()
+  void updateAvailableDriversOnMap()
   {
     setState(() {
       markersSet.clear();
@@ -1151,8 +1151,9 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
       Marker marker = Marker(
         markerId: MarkerId('driver${driver.key}'),
         position: driverAvaiablePosition,
-        icon: nearByIcon,
-        //rotation: AssistantMethods.createRandomNumber(360),
+        //icon: nearByIcon,
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueYellow),
+        rotation: AssistantMethods.createRandomNumber(360),
       );
 
       tMakers.add(marker);
@@ -1160,7 +1161,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
     setState(() {
       markersSet = tMakers;
     });
-  }*/
+  }
 
   void createIconMarker()
   {
