@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen>
 
               SizedBox(height: 1.0,),
               Text(
-                "Iniciar Sesion como profesor",
+                "Iniciar Sesion como estudiante",
                 style: TextStyle(fontSize: 24.0, fontFamily: "Brand Bold"),
                 textAlign: TextAlign.center,
               ),
